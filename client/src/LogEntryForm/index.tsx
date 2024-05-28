@@ -1,7 +1,7 @@
 import React, {useState}  from 'react';
 import { useForm, SubmitHandler } from "react-hook-form"
 
-import { createLogEntry } from './API';
+import { createLogEntry } from '../API';
 
 interface LogEntryFormProps {
     location: MarkerLocation,
