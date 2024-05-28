@@ -1,6 +1,10 @@
 import React, {Fragment} from 'react';
 
-const Rating = ({ rating }) => {
+interface RatingProps {
+  rating: number;
+}
+
+const Rating: React.FC<RatingProps> = ({ rating }) => {
   const validRating = Math.min(Math.max(rating, 0), 10);
 
   return (

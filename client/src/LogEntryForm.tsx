@@ -3,46 +3,52 @@ import { useForm, SubmitHandler } from "react-hook-form"
 
 import { createLogEntry } from './API';
 
-const LogEntryForm = ({ location, onClose }) => {
+interface LogEntryFormProps {
+    location: MarkerLocation,
+    onClose: Function
+  }
+
+const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose }) => {
     const [loading, setLoading ] = useState(false);
     const [error, setError ] = useState("");
 
     const {
         register,
         handleSubmit
-      } = useForm();
-      const onSubmit = async (data) => {
+    } = useForm();
+    async function onSubmit(data: any) {
         try {
             setLoading(true);
             data.latitude = location.latitude;
             data.longitude = location.longitude;
             const created = await createLogEntry(data);
             onClose();
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
             setError(error.message);
+        } finally {
             setLoading(false);
         }
-    };
+    }
 
     return (
         <form className="entry-form" onSubmit={handleSubmit(onSubmit)}>
             { error &&  <h3 className='error'>{error}</h3> }
 
             <label htmlFor="title">Title</label>
-            <input name="title"  {...register('title', { required: true })}/>
+            <input  {...register('title', { required: true })} name="title"  />
 
             <label htmlFor="comments">Comments</label>
-            <textarea name="comments" rows={3} {...register('comments')}/>
+            <textarea rows={3} {...register('comments')} name="comments" />
 
             <label htmlFor="description">Description</label>
-            <textarea name="description" rows={3}  {...register('description')} />
+            <textarea rows={3}  {...register('description')} name="description" />
 
             <label htmlFor="image">Image</label>
-            <input name="image" {...register('image')}/>
+            <input {...register('image')} name="image"/>
 
             <label htmlFor="visitDate">Visit Date</label>
-            <input name="visitDate" type='date'  {...register('visitDate', { required: true })} />
+            <input type='date'  {...register('visitDate', { required: true })} name="visitDate" />
             <button disabled={loading}>{loading ? "Loading..." : "Create Entry"}</button>
         </form>
     )

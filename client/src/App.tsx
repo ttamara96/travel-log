@@ -5,13 +5,17 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import LogEntryForm from './LogEntryForm';
 import Rating from './Rating';
 
-const App = ()  => {
-  const [logEntries, setLogEntries ] = useState([]);
-  const [showPopup, setShowPopup] = useState({});
-  const [addEntryLocation, setAddEntryLocation] = useState(null);
+interface ShowPopup {
+  [_id: string]: boolean;
+}
+
+function App() {
+  const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
+  const [showPopup, setShowPopup] = useState<ShowPopup>({});
+  const [addEntryLocation, setAddEntryLocation] = useState<MarkerLocation | null>();
 
   const getEntries = async () => {
-    const logEntries = await listLogEntries();
+    const logEntries: LogEntry[] = await listLogEntries();
     setLogEntries(logEntries);
   }
 
@@ -19,14 +23,12 @@ const App = ()  => {
     getEntries();
   }, []);  //empty dependency array, to only run once
 
-  const showAddMarkerPopup = (event) => {
-    console.log( event.lngLat);
+  const showAddMarkerPopup = (event: any) => {
     setAddEntryLocation({
       latitude:  event.lngLat.lat,
       longitude: event.lngLat.lng
 
     })
-    console.log(addEntryLocation);
   }
 
   return (
@@ -48,7 +50,7 @@ const App = ()  => {
               longitude={entry.longitude}
               latitude={entry.latitude}
               onClick={() => { 
-                const tempShowPopup = Object.keys(showPopup).reduce((accumulator, key) => {     //Close all other popups
+                const tempShowPopup = Object.keys(showPopup).reduce((accumulator: ShowPopup, key: string) => {     //Close all other popups
                   accumulator[key] = false;
                   return accumulator;
                 }, {});
@@ -91,7 +93,7 @@ const App = ()  => {
                   <h1 className="text-3xl font-bold mt-3 mb-5">{entry.title}</h1>
                   <p><small>Visited on: {new Date(entry.visitDate).toLocaleDateString()}</small></p>
 
-                  <Rating rating={entry.rating} />
+                  <Rating rating={entry.rating ?? 0} />
                   
                   <h2 className="text-xl font-bold mt-4">Description</h2>
                   <p>{entry.description ?? "-" }</p> 
