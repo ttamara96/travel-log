@@ -7,33 +7,26 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  /* -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; */
 }
-
-/* code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
 
 .marker{
   width: 25px;
   height: 25px;
   /* transform: translate(0%, -50%); */
-}
 
-.marker.yellow {
-  stroke: #f8c102;
-  transform: translate(0%, -50%);
-}
-
-.marker.blue {
-  stroke: #35c0db;
-  transform: translate(0%, -50%);
-}
-
-.marker.red {
-  stroke: #cc2908
+  &.yellow {
+    stroke: #f8c102;
+    transform: translate(0%, -50%);
+  }
+  
+  &.blue {
+    stroke: #35c0db;
+    transform: translate(0%, -50%);
+  }
+  
+  &.red {
+    stroke: #cc2908
+  }
 }
 
 .error {
@@ -48,12 +41,13 @@ body {
   height: 100vh !important;
   width: 20vw !important;
   max-width: 20vw !important;
+
+  & .mapboxgl-popup-content,
+  & .mapboxgl-popup-content div {
+    height: 100%;
+  }
 }
 
-.mapboxgl-popup .mapboxgl-popup-content,
-.mapboxgl-popup .mapboxgl-popup-content div {
-  height: 100%;
-}
 
 .mapboxgl-popup-tip {
   display: none !important;
@@ -61,23 +55,19 @@ body {
 
 .details-popup {
   height: 100%;
-}
 
-.details-popup .image-container {
-  margin-top: 1.5rem;
-  width: 100%;
-  max-height: 300px;
-  overflow: hidden;
-}
-
-.details-popup img {
-  max-width: 100%;
+  & .image-container {
+    margin-top: 1.5rem;
+    width: 100%;
+    max-height: 300px;
+    overflow: hidden;
+  }
   
-  display: block;
-}
-
-.action-button-container{
-  margin-top: auto;
+  & img {
+    max-width: 100%;
+    
+    display: block;
+  }
 }
 
 .action-button {
@@ -97,13 +87,13 @@ body {
 
 .entry-form {
   width: 100%;
-}
 
-.entry-form label, 
-.entry-form input, 
-.entry-form textarea, 
-.entry-form button {
-  margin: 0.2rem 0;
-  width: 100%;
-  display: inline-block;
+  & label, 
+  & input, 
+  & textarea, 
+  & button {
+    margin: 0.2rem 0;
+    width: 100%;
+    display: inline-block;
+  }
 }
