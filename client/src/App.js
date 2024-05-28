@@ -3,6 +3,7 @@ import Map, {Marker, Popup} from 'react-map-gl';
 import { listLogEntries } from './API';
 import "mapbox-gl/dist/mapbox-gl.css";
 import LogEntryForm from './LogEntryForm';
+import Rating from './Rating';
 
 const App = ()  => {
   const [logEntries, setLogEntries ] = useState([]);
@@ -47,8 +48,13 @@ const App = ()  => {
               longitude={entry.longitude}
               latitude={entry.latitude}
               onClick={() => { 
+                const tempShowPopup = Object.keys(showPopup).reduce((accumulator, key) => {     //Close all other popups
+                  accumulator[key] = false;
+                  return accumulator;
+                }, {});
+
                 setShowPopup(
-                  { ...showPopup, 
+                  { ...tempShowPopup, 
                     [entry._id]: true
                   }
                 )
@@ -57,7 +63,7 @@ const App = ()  => {
             >
               <div>
                 <svg
-                 className="marker yellow" viewBox="0 0 24 24" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">  
+                 className={showPopup[entry._id] ? "marker blue" : "marker yellow"} viewBox="0 0 24 24" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">  
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                   <circle cx="12" cy="10" r="3">
                   </circle>
@@ -69,7 +75,6 @@ const App = ()  => {
                 key={`${entry._id}_${entry.longitude}_${entry.latitude}_`}
                 longitude={entry.longitude}
                 latitude={entry.latitude}
-                anchor="bottom"
                 closeOnClick={false}
                 onClose={() => {
                   setShowPopup(  { ...showPopup, 
@@ -78,11 +83,22 @@ const App = ()  => {
                 }
               }
                 >
-                <div className='details-popup'>
-                  <h3>{entry.title}</h3>
-                  <p>{entry.comments}</p> 
-                  {entry.image && <img src={entry.image} alt={entry.title} /> }
-                  <small>Visited on: {new Date(entry.visitDate).toLocaleDateString()}</small>
+                <div className='details-popup flex flex-col'>
+                  {entry.image &&
+                  <div className='image-container'>
+                    <img src={entry.image} alt={entry.title} />
+                  </div> }
+                  <h1 className="text-3xl font-bold mt-3 mb-5">{entry.title}</h1>
+                  <p><small>Visited on: {new Date(entry.visitDate).toLocaleDateString()}</small></p>
+
+                  <Rating rating={entry.rating} />
+                  
+                  <h2 className="text-xl font-bold mt-4">Description</h2>
+                  <p>{entry.description ?? "-" }</p> 
+                  <h2 className="text-xl font-bold my-2">Comments</h2>
+                  <p>{entry.comments ?? "-"}</p> 
+                  <button className="action-button text-base p-1 bg-sky-500 hover:bg-sky-700">Edit</button>
+                  
                 </div>
               </Popup>)
             }
