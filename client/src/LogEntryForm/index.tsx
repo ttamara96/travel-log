@@ -31,25 +31,47 @@ const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose }) => {
         }
     }
 
+    function onFormSubmitError(error: any) { 
+        console.error(error);
+    }
+
     return (
-        <form className="entry-form" onSubmit={handleSubmit(onSubmit)}>
+        <form className="entry-form w-full flex flex-col h-[calc(100%-1.875rem-2rem)]" onSubmit={handleSubmit(onSubmit, onFormSubmitError)}>
             { error &&  <h3 className='error'>{error}</h3> }
+            <section>
+                <label className="block text-gray-500 font-bold">Selected location</label>
+                <p>Latitude: {location.latitude}</p>
+                <p className="mb-4" >Longitude: {location.longitude}</p>
 
-            <label htmlFor="title">Title</label>
-            <input  {...register('title', { required: true })} name="title"  />
+                <label className="block text-gray-500 font-bold required" htmlFor="title">Title</label>
+                <input className='bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-cyan-500' 
+                        {...register('title', { required: true })} 
+                        name="title"  />
 
-            <label htmlFor="comments">Comments</label>
-            <textarea rows={3} {...register('comments')} name="comments" />
+                <label  className="block text-gray-500 font-bold" htmlFor="comments">Comments</label>
+                <textarea   className='bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-cyan-500' 
+                            rows={5} {...register('comments')} 
+                            name="comments" />
 
-            <label htmlFor="description">Description</label>
-            <textarea rows={3}  {...register('description')} name="description" />
+                <label  className="block text-gray-500 font-bold" htmlFor="description">Description</label>
+                <textarea   className='bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-cyan-500'  
+                            rows={5}  {...register('description')} 
+                            name="description" />
 
-            <label htmlFor="image">Image</label>
-            <input {...register('image')} name="image"/>
+                <label  className="block text-gray-500 font-bold"  htmlFor="image">Image Link</label>
+                <input  className='bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-cyan-500'  
+                        {...register('image')} 
+                        name="image"/>
 
-            <label htmlFor="visitDate">Visit Date</label>
-            <input type='date'  {...register('visitDate', { required: true })} name="visitDate" />
-            <button disabled={loading}>{loading ? "Loading..." : "Create Entry"}</button>
+                <label  className="block text-gray-500 font-bold required" htmlFor="visitDate">Visit Date</label>
+                <input  className='bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-cyan-500'  
+                        type='date'  {...register('visitDate', { required: true })}
+                        name="visitDate" />
+            </section>
+            <section className='mt-auto'>
+            <button className='action-button text-base p-1 bg-cyan-500 hover:bg-cyan-600 rounded' 
+                    disabled={loading}>{loading ? "Loading..." : "Create Entry"}</button>
+            </section>
         </form>
     )
 }

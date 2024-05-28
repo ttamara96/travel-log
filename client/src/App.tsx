@@ -91,7 +91,7 @@ function App() {
                     <img src={entry.image} alt={entry.title} />
                   </div> }
                   <h1 className="text-3xl font-bold mt-3 mb-5">{entry.title}</h1>
-                  <p><small>Visited on: {new Date(entry.visitDate).toLocaleDateString()}</small></p>
+                  <p>Visited on: {new Date(entry.visitDate).toLocaleDateString()}</p>
 
                   <Rating rating={entry.rating ?? 0} />
                   
@@ -99,7 +99,7 @@ function App() {
                   <p>{entry.description ?? "-" }</p> 
                   <h2 className="text-xl font-bold my-2">Comments</h2>
                   <p>{entry.comments ?? "-"}</p> 
-                  <button className="action-button text-base p-1 bg-sky-500 hover:bg-sky-700">Edit</button>
+                  <button className="action-button text-base p-1 bg-cyan-500 hover:bg-cyan-600 rounded">Edit</button>
                   
                 </div>
               </Popup>)
@@ -132,7 +132,7 @@ function App() {
             }
               >
               <div className='new-entry-popup'>
-                <h3>Add your new log entry</h3>
+              <h1 className="text-3xl font-bold mt-3 mb-5">Add your new log entry</h1>
                 <LogEntryForm 
                   onClose={() =>{
                     setAddEntryLocation(null);
