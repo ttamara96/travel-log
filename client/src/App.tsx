@@ -2,7 +2,7 @@ import React, {useState, useEffect, Fragment }  from 'react';
 import Map, {Marker, Popup} from 'react-map-gl';
 import { listLogEntries } from './API';
 import "mapbox-gl/dist/mapbox-gl.css";
-import { LogEntryForm, Rating }from './Components';
+import { LogEntryForm, Rating } from './Components';
 
 interface ShowPopup {
   [_id: string]: boolean;

@@ -2,6 +2,8 @@ import React, {useState}  from 'react';
 import { useForm, SubmitHandler } from "react-hook-form"
 
 import { createLogEntry } from '../../API';
+import { FormInput, FormTextArea }from '..';
+import './LogEntryForm.scss';
 
 interface LogEntryFormProps {
     location: MarkerLocation,
@@ -43,33 +45,33 @@ export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose })
                 <p>Latitude: {location.latitude}</p>
                 <p className="mb-4" >Longitude: {location.longitude}</p>
 
-                <label className="block text-gray-500 font-bold required" htmlFor="title">Title</label>
-                <input className='bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-cyan-500' 
-                        {...register('title', { required: true })} 
-                        name="title"  />
+                <FormInput  register={register} 
+                            inputKey="title"
+                            label="Title"
+                            required={true}  />
 
-                <label  className="block text-gray-500 font-bold" htmlFor="comments">Comments</label>
-                <textarea   className='bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-cyan-500' 
-                            rows={5} {...register('comments')} 
-                            name="comments" />
+                <FormTextArea  register={register} 
+                            inputKey="comments"
+                            rows={5}
+                            label="Comments"  />
 
-                <label  className="block text-gray-500 font-bold" htmlFor="description">Description</label>
-                <textarea   className='bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-cyan-500'  
-                            rows={5}  {...register('description')} 
-                            name="description" />
+                <FormTextArea  register={register} 
+                            inputKey="description"
+                            rows={5}
+                            label="Description"  />
 
-                <label  className="block text-gray-500 font-bold"  htmlFor="image">Image Link</label>
-                <input  className='bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-cyan-500'  
-                        {...register('image')} 
-                        name="image"/>
+                <FormInput  register={register} 
+                            inputKey="image"
+                            label="Image Link"  />
 
-                <label  className="block text-gray-500 font-bold required" htmlFor="visitDate">Visit Date</label>
-                <input  className='bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-cyan-500'  
-                        type='date'  {...register('visitDate', { required: true })}
-                        name="visitDate" />
+                <FormInput  register={register} 
+                            inputKey="visitDate"
+                            label="Visit Date"
+                            type='date'
+                            required={true}  />
             </section>
             <section className='mt-auto'>
-            <button className='action-button w-full text-base p-1 bg-cyan-500 hover:bg-cyan-600 rounded' 
+                <button className='action-button w-full text-base p-1 bg-cyan-500 hover:bg-cyan-600 rounded' 
                     disabled={loading}>{loading ? "Loading..." : "Create Entry"}</button>
             </section>
         </form>
