@@ -1,0 +1,16 @@
+.entry-form {
+
+    & label, 
+    & input, 
+    & textarea, 
+    & button {
+      margin: 0.3rem 0;
+      width: 100%;
+      display: inline-block;
+    }
+  
+    label.required:after {
+      content:" *";
+      color: #06b6d4;
+    }
+  }

@@ -1,14 +1,14 @@
 import React, {useState}  from 'react';
 import { useForm, SubmitHandler } from "react-hook-form"
 
-import { createLogEntry } from '../API';
+import { createLogEntry } from '../../API';
 
 interface LogEntryFormProps {
     location: MarkerLocation,
     onClose: Function
   }
 
-const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose }) => {
+export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose }) => {
     const [loading, setLoading ] = useState(false);
     const [error, setError ] = useState("");
 
@@ -69,11 +69,9 @@ const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose }) => {
                         name="visitDate" />
             </section>
             <section className='mt-auto'>
-            <button className='action-button text-base p-1 bg-cyan-500 hover:bg-cyan-600 rounded' 
+            <button className='action-button w-full text-base p-1 bg-cyan-500 hover:bg-cyan-600 rounded' 
                     disabled={loading}>{loading ? "Loading..." : "Create Entry"}</button>
             </section>
         </form>
     )
 }
-
-export default LogEntryForm;

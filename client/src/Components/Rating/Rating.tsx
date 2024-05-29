@@ -4,7 +4,7 @@ interface RatingProps {
   rating: number;
 }
 
-const Rating: React.FC<RatingProps> = ({ rating }) => {
+export const Rating: React.FC<RatingProps> = ({ rating }) => {
   const validRating = Math.min(Math.max(rating, 0), 10);
 
   return (
@@ -17,5 +17,3 @@ const Rating: React.FC<RatingProps> = ({ rating }) => {
     </section>
   );
 };
-
-export default Rating;
