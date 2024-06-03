@@ -1,8 +1,8 @@
 import React, {useState}  from 'react';
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 import { createLogEntry } from '../../API';
-import { FormInput, FormTextArea }from '..';
+import { FormInput, FormTextArea, Rating } from '..';
 import './LogEntryForm.scss';
 
 interface LogEntryFormProps {
@@ -16,6 +16,7 @@ export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose })
 
     const {
         register,
+        setValue,
         handleSubmit
     } = useForm();
     async function onSubmit(data: any) {
@@ -50,15 +51,22 @@ export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose })
                             label="Title"
                             required={true}  />
 
-                <FormTextArea  register={register} 
-                            inputKey="comments"
-                            rows={5}
-                            label="Comments"  />
+                <Rating rating={0}
+                        formRatingProps={{
+                            "register": register,
+                            "setValue": setValue,
+                            "inputKey": "rating",
+                            "label": "Rating" }} />
 
-                <FormTextArea  register={register} 
-                            inputKey="description"
-                            rows={5}
-                            label="Description"  />
+                <FormTextArea   register={register} 
+                                inputKey="description"
+                                rows={5}
+                                label="Description"  />
+
+                <FormTextArea   register={register} 
+                                inputKey="comments"
+                                rows={5}
+                                label="Comments"  />
 
                 <FormInput  register={register} 
                             inputKey="image"
