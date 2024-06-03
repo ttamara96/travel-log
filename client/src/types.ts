@@ -25,3 +25,8 @@ interface MarkerLocation {
     longitude: number,
     latitude: number
 }
+
+interface ShowPopup {
+    [_id: string]: boolean;
+  }
+  
