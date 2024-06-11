@@ -2,7 +2,7 @@ interface NewLogEntry {
     title?: string,
     longitude: number,
     latitude: number,
-    visitDate?: Date
+    visitDate?: Date,
     description?: string,
     comments?: string,
     rating?: number,
@@ -14,7 +14,7 @@ interface LogEntry {
     title: string,
     longitude: number,
     latitude: number,
-    visitDate: Date
+    visitDate: string,  //Date stored as string
     description?: string,
     comments?: string,
     rating?: number,
@@ -25,3 +25,8 @@ interface MarkerLocation {
     longitude: number,
     latitude: number
 }
+
+interface ShowPopup {
+    [_id: string]: boolean;
+  }
+  

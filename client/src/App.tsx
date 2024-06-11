@@ -2,12 +2,7 @@ import React, {useState, useEffect, Fragment }  from 'react';
 import Map, {Marker, Popup} from 'react-map-gl';
 import { listLogEntries } from './API';
 import "mapbox-gl/dist/mapbox-gl.css";
-import LogEntryForm from './LogEntryForm';
-import Rating from './Rating';
-
-interface ShowPopup {
-  [_id: string]: boolean;
-}
+import { DetailsPopup, LogEntryForm, Rating } from './Components';
 
 function App() {
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
@@ -17,6 +12,14 @@ function App() {
   const getEntries = async () => {
     const logEntries: LogEntry[] = await listLogEntries();
     setLogEntries(logEntries);
+  }
+
+  const updateLogEntry = (updatedEntry: LogEntry) => {
+    setLogEntries(prevEntries =>
+      prevEntries.map(entry => 
+          entry._id === updatedEntry._id ? updatedEntry : entry
+      )
+    );
   }
 
   useEffect(() => {
@@ -73,36 +76,12 @@ function App() {
               </div> 
             </Marker>
             {showPopup[entry._id] && (
-              <Popup   
-                key={`${entry._id}_${entry.longitude}_${entry.latitude}_`}
-                longitude={entry.longitude}
-                latitude={entry.latitude}
-                closeOnClick={false}
-                onClose={() => {
-                  setShowPopup(  { ...showPopup, 
-                    [entry._id]: false
-                  })
-                }
-              }
-                >
-                <div className='details-popup flex flex-col'>
-                  {entry.image &&
-                  <div className='image-container'>
-                    <img src={entry.image} alt={entry.title} />
-                  </div> }
-                  <h1 className="text-3xl font-bold mt-3 mb-5">{entry.title}</h1>
-                  <p>Visited on: {new Date(entry.visitDate).toLocaleDateString()}</p>
-
-                  <Rating rating={entry.rating ?? 0} />
-                  
-                  <h2 className="text-xl font-bold mt-4">Description</h2>
-                  <p>{entry.description ?? "-" }</p> 
-                  <h2 className="text-xl font-bold my-2">Comments</h2>
-                  <p>{entry.comments ?? "-"}</p> 
-                  <button className="action-button text-base p-1 bg-cyan-500 hover:bg-cyan-600 rounded">Edit</button>
-                  
-                </div>
-              </Popup>)
+                <DetailsPopup  
+                  entry={entry} 
+                  showPopup={showPopup} 
+                  setShowPopup={setShowPopup}
+                  updateEntry={updateLogEntry}/>
+              )
             }
           </Fragment>
         })

@@ -27,8 +27,31 @@ router.post('/', async (req, res, next) => {
         }
         next(error);
     }
-  
+});
 
+
+router.put('/:id', async (req, res, next) => {
+    try { 
+        console.log(req.body);
+        delete req.body.createdAt;
+        delete req.body.updatedAt;
+        delete req.body.__v;
+        const updatedResult = 
+            await LogEntry.findByIdAndUpdate( 
+                { _id: req.params.id }, 
+                { 
+                    ...req.body
+                },
+                {new: true}         //To return the updated entry
+            ); 
+        res.json(updatedResult);
+    } catch (error) { 
+        console.log(error); 
+        if(error.name == "ValidationError") {
+            res.status(422);
+        }
+        next(error);
+    } 
 });
 
 module.exports = router;
