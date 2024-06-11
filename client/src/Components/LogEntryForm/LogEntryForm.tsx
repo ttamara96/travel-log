@@ -1,16 +1,18 @@
 import React, {useState}  from 'react';
 import { useForm } from "react-hook-form"
 
-import { createLogEntry } from '../../API';
+import { createLogEntry, updateLogEntry } from '../../API';
 import { FormInput, FormTextArea, Rating } from '..';
 import './LogEntryForm.scss';
 
 interface LogEntryFormProps {
     location: MarkerLocation,
-    onClose: Function
+    onClose: Function,
+    entry?: LogEntry,
+    updateEntry?: Function
   }
 
-export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose }) => {
+export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose, entry, updateEntry }) => {
     const [loading, setLoading ] = useState(false);
     const [error, setError ] = useState("");
 
@@ -24,7 +26,12 @@ export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose })
             setLoading(true);
             data.latitude = location.latitude;
             data.longitude = location.longitude;
-            const created = await createLogEntry(data);
+            if(entry && updateEntry) {                                   //EDIT
+                const updated = await updateLogEntry(entry._id, data);
+                updateEntry(updated);
+            } else {                                            //CREATE 
+                const created = await createLogEntry(data);
+            }
             onClose();
         } catch (error: any) {
             console.error(error);
@@ -34,8 +41,26 @@ export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose })
         }
     }
 
+    function getSubmitButtonLabel(): string {
+        if(loading) {
+            return "Loading...";
+        } else if(entry) {
+            return `Save Changes for ${entry.title}`;
+        } else {
+            return "Create Entry";
+        }
+    }
+
     function onFormSubmitError(error: any) { 
         console.error(error);
+    }
+
+    function formatDateStringForInput(dateString: string): string {
+        if(entry?.visitDate) {
+            return new Date(entry?.visitDate).toISOString().slice(0, 10)
+        } else {
+            return "";
+        }
     }
 
     return (
@@ -49,38 +74,48 @@ export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose })
                 <FormInput  register={register} 
                             inputKey="title"
                             label="Title"
-                            required={true}  />
+                            required={true} 
+                            value={entry && entry?.title}
+                            setValue={setValue} />
 
-                <Rating rating={0}
+                <Rating rating={entry?.rating ?? 0}
                         formRatingProps={{
                             "register": register,
                             "setValue": setValue,
                             "inputKey": "rating",
-                            "label": "Rating" }} />
+                            "label": "Rating"  }}  />
 
                 <FormTextArea   register={register} 
                                 inputKey="description"
                                 rows={5}
-                                label="Description"  />
+                                label="Description"
+                                value={entry && entry?.description}
+                                setValue={setValue}  />
 
                 <FormTextArea   register={register} 
                                 inputKey="comments"
                                 rows={5}
-                                label="Comments"  />
+                                label="Comments"
+                                value={entry && entry?.comments} 
+                                setValue={setValue} />
 
                 <FormInput  register={register} 
                             inputKey="image"
-                            label="Image Link"  />
+                            label="Image Link"
+                            value={entry && entry?.image}
+                            setValue={setValue}  />
 
                 <FormInput  register={register} 
                             inputKey="visitDate"
                             label="Visit Date"
                             type='date'
-                            required={true}  />
+                            required={true}
+                            value={entry?.visitDate && formatDateStringForInput(entry?.visitDate)}
+                            setValue={setValue}  />
             </section>
             <section className='mt-auto'>
                 <button className='action-button w-full text-base p-1 bg-cyan-500 hover:bg-cyan-600 rounded' 
-                    disabled={loading}>{loading ? "Loading..." : "Create Entry"}</button>
+                    disabled={loading}>{getSubmitButtonLabel()}</button>
             </section>
         </form>
     )

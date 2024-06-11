@@ -12,7 +12,7 @@ interface FormRatingProps {
 
 interface RatingProps {
   rating: number;
-  formRatingProps?: FormRatingProps
+  formRatingProps?: FormRatingProps,
 }
 
 export const Rating: React.FC<RatingProps> = ({ rating, formRatingProps }) => {

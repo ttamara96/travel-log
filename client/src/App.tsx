@@ -14,6 +14,14 @@ function App() {
     setLogEntries(logEntries);
   }
 
+  const updateLogEntry = (updatedEntry: LogEntry) => {
+    setLogEntries(prevEntries =>
+      prevEntries.map(entry => 
+          entry._id === updatedEntry._id ? updatedEntry : entry
+      )
+    );
+  }
+
   useEffect(() => {
     getEntries();
   }, []);  //empty dependency array, to only run once
@@ -71,7 +79,8 @@ function App() {
                 <DetailsPopup  
                   entry={entry} 
                   showPopup={showPopup} 
-                  setShowPopup={setShowPopup}/>
+                  setShowPopup={setShowPopup}
+                  updateEntry={updateLogEntry}/>
               )
             }
           </Fragment>
