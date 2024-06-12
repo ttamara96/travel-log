@@ -1,0 +1,30 @@
+$side-padding: 1.5rem;
+
+.details-popup {
+    height: 100%;
+    padding: 0;
+    overflow-y: auto;
+
+    & .popup-header{ 
+        padding: 0 $side-padding;
+    }
+
+    & .popup-body { 
+        height: 100%;
+        padding: 0 $side-padding $side-padding $side-padding;
+    }
+  
+    & .image-container {
+      width: 100%;
+      min-height: 20vh;
+      height: max-content;
+      max-height: 30vh;
+      overflow: hidden;
+      
+    }
+    
+    & img {
+      width: 100%;
+      display: block;
+    }
+}

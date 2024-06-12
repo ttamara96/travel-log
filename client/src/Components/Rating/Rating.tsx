@@ -23,7 +23,7 @@ export const Rating: React.FC<RatingProps> = ({ rating, formRatingProps }) => {
   return (
     <>
       <label  className={"block text-gray-500 font-bold " + (formRatingProps?.required ? "required" : "")}  htmlFor={formRatingProps?.inputKey}>{formRatingProps?.label}</label>
-      <section className="flex flex-row my-4">
+      <section className="flex flex-row">
         {[...Array(10)].map((_, index) => (
           <div 
             key={`rating_container_${index}`}
