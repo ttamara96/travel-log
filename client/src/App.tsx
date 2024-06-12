@@ -2,7 +2,7 @@ import React, {useState, useEffect, Fragment }  from 'react';
 import Map, {Marker, Popup} from 'react-map-gl';
 import { listLogEntries } from './API';
 import "mapbox-gl/dist/mapbox-gl.css";
-import { DetailsPopup, LogEntryForm, Rating } from './Components';
+import { DetailsPopup, LogEntryForm } from './Components';
 
 function App() {
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);

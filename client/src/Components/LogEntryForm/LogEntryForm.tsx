@@ -64,7 +64,7 @@ export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose, e
     }
 
     return (
-        <form className="entry-form w-full flex flex-col h-[calc(100%-1.875rem-2rem)]" onSubmit={handleSubmit(onSubmit, onFormSubmitError)}>
+        <form className="entry-form w-full flex flex-col h-[calc(100%-1.875rem-2.5rem)]" onSubmit={handleSubmit(onSubmit, onFormSubmitError)}>
             { error &&  <h3 className='error'>{error}</h3> }
             <section>
                 <label className="block text-gray-500 font-bold">Selected location</label>
@@ -78,12 +78,15 @@ export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose, e
                             value={entry && entry?.title}
                             setValue={setValue} />
 
-                <Rating rating={entry?.rating ?? 0}
-                        formRatingProps={{
-                            "register": register,
-                            "setValue": setValue,
-                            "inputKey": "rating",
-                            "label": "Rating"  }}  />
+                <section className='my-4'>
+                    <Rating rating={entry?.rating ?? 0}
+                            formRatingProps={{
+                                "register": register,
+                                "setValue": setValue,
+                                "inputKey": "rating",
+                                "label": "Rating"  }}  />
+                </section>
+
 
                 <FormTextArea   register={register} 
                                 inputKey="description"

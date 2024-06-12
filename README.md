@@ -16,6 +16,7 @@ Double clicking on the map will open the "Add your new log entry" drawer.
 
 ### Show details of log entry by clicking on the marker
 Clicking an existin marker will open the details drawer, the user can see all the data related to the current travel log entry. 
+
 ![Show log entry details example](/client/public/img/show_entry.PNG)
 
 ### Edit log entry
