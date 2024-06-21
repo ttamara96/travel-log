@@ -1,16 +1,19 @@
 import {  Popup } from 'react-map-gl';
-import { LogEntryForm, Rating } from '..';
+import { LogEntryForm, Rating, DeleteEntry } from '..';
 import { useState } from 'react';
 import "./DetailsPopup.scss";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 interface DetailsPopupProps {
     entry: LogEntry;
     showPopup: ShowPopup;
     setShowPopup: React.Dispatch<React.SetStateAction<ShowPopup>>;
-    updateEntry?: Function;
+    updateEntryCallback?: Function;
+    deleteEntryCallback?: Function;
 }
 
-export const DetailsPopup: React.FC<DetailsPopupProps> = ({ entry, showPopup, setShowPopup, updateEntry }) => {
+export const DetailsPopup: React.FC<DetailsPopupProps> = ({ entry, showPopup, setShowPopup, updateEntryCallback, deleteEntryCallback }) => {
     const [editMode, setEditMode] = useState<boolean>(false);
 
     return (
@@ -42,7 +45,7 @@ export const DetailsPopup: React.FC<DetailsPopupProps> = ({ entry, showPopup, se
                                             })
                                             setEditMode(false)
                                         }}
-                                        updateEntry={updateEntry}/>
+                                        updateEntryCallback={updateEntryCallback}/>
                     </div>
                 </div>
                 :
@@ -69,10 +72,18 @@ export const DetailsPopup: React.FC<DetailsPopupProps> = ({ entry, showPopup, se
                         <section className='min-h-12 overflow-y-auto mb-4'>
                             <p>{entry.comments ? entry.comments : "-"}</p>
                         </section>
-                        <button className="action-button text-base p-1 bg-cyan-500 hover:bg-cyan-600 rounded"  
-                                onClick={() => { setEditMode(true) }}>
-                            Edit
-                        </button>
+                        <section className='action-button-container flex'>
+                            <DeleteEntry            
+                                entry={entry} 
+                                showPopup={showPopup} 
+                                setShowPopup={setShowPopup}
+                                deleteEntryCallback={deleteEntryCallback} />
+                            <button className="flex-1 text-base p-1 bg-cyan-500 hover:bg-cyan-600 rounded"  
+                                    onClick={() => { setEditMode(true) }}>
+                                    <FontAwesomeIcon icon={faEdit} /> Edit
+                            </button>
+                        </section>
+
                     </section>
                 </div>
             }

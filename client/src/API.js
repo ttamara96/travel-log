@@ -32,3 +32,11 @@ export async function updateLogEntry(_id, entry) {
 
     return response.json();
 }
+
+
+export async function deleteLogEntry(_id) {
+    const response = await fetch(`${API_URL}/api/logs/${_id}`, {
+        method: "DELETE"
+    })
+    return response;
+}

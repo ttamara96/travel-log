@@ -54,4 +54,19 @@ router.put('/:id', async (req, res, next) => {
     } 
 });
 
+router.delete('/:id', async (req, res, next) => {
+    try { 
+        const response = await LogEntry.findByIdAndDelete( req.params.id); 
+        console.log(response);
+        res.json(response);
+    } catch (error) { 
+        console.log(error); 
+        if(error.name == "ValidationError") {
+            res.status(422);
+        }
+        next(error);
+    } 
+});
+
+
 module.exports = router;
