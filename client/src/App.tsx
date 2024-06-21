@@ -22,6 +22,12 @@ function App() {
     );
   }
 
+  
+  const deleteLogEntry = (deletedEntryId: String) => {
+    const LogEntriesWithoutDeleted = logEntries.filter((entry) => entry._id !== deletedEntryId)
+    setLogEntries(LogEntriesWithoutDeleted);
+  }
+
   useEffect(() => {
     getEntries();
   }, []);  //empty dependency array, to only run once
@@ -80,7 +86,8 @@ function App() {
                   entry={entry} 
                   showPopup={showPopup} 
                   setShowPopup={setShowPopup}
-                  updateEntry={updateLogEntry}/>
+                  updateEntryCallback={updateLogEntry}
+                  deleteEntryCallback={deleteLogEntry}/>
               )
             }
           </Fragment>

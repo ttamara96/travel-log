@@ -4,15 +4,17 @@ import { useForm } from "react-hook-form"
 import { createLogEntry, updateLogEntry } from '../../API';
 import { FormInput, FormTextArea, Rating } from '..';
 import './LogEntryForm.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSave } from '@fortawesome/free-solid-svg-icons';
 
 interface LogEntryFormProps {
     location: MarkerLocation,
     onClose: Function,
     entry?: LogEntry,
-    updateEntry?: Function
+    updateEntryCallback?: Function
   }
 
-export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose, entry, updateEntry }) => {
+export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose, entry, updateEntryCallback }) => {
     const [loading, setLoading ] = useState(false);
     const [error, setError ] = useState("");
 
@@ -26,9 +28,9 @@ export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose, e
             setLoading(true);
             data.latitude = location.latitude;
             data.longitude = location.longitude;
-            if(entry && updateEntry) {                                   //EDIT
+            if(entry && updateEntryCallback) {                                   //EDIT
                 const updated = await updateLogEntry(entry._id, data);
-                updateEntry(updated);
+                updateEntryCallback(updated);
             } else {                                            //CREATE 
                 const created = await createLogEntry(data);
             }
@@ -117,8 +119,10 @@ export const LogEntryForm: React.FC<LogEntryFormProps> = ({ location, onClose, e
                             setValue={setValue}  />
             </section>
             <section className='mt-auto'>
-                <button className='action-button w-full text-base p-1 bg-cyan-500 hover:bg-cyan-600 rounded' 
-                    disabled={loading}>{getSubmitButtonLabel()}</button>
+                <button className='action-button w-full text-base p-3 bg-cyan-500 hover:bg-cyan-600 rounded' 
+                        disabled={loading}>
+                    <FontAwesomeIcon icon={faSave} />  {getSubmitButtonLabel()}
+                </button>
             </section>
         </form>
     )
