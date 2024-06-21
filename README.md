@@ -24,6 +24,12 @@ In the details drawer the user can choose to edit the current entry. This happen
 
 ![Edit log entry example](/client/public/img/edit_entry.PNG)
 
+### Delete log entry
+In the details drawer the user can choose to delete the current entry. Clicking on the trash icon first opens a confirmation dialog. After the user confirms that they want to delete the item, the dialog closes, and the data is deleted from the database and the marker is removed from the map.
+
+![Delete log entry example](/client/public/img/delete_entry.PNG)
+
+
 
 ## Start the application
 ### Backend
